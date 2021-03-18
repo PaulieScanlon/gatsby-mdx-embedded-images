@@ -1,0 +1,29 @@
+---
+title: Local Images
+embeddedImagesLocal:
+  - image1.jpg
+  - image2.jpg
+---
+
+## Post Body
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eleifend iaculis nunc ut posuere. Integer mollis interdum nisi eu pellentesque. Quisque euismod ipsum mi, in rutrum nisl malesuada quis. In hac habitasse platea dictumst. Nullam tempor iaculis varius. Vestibulum sit amet feugiat sem, vitae venenatis urna. Proin scelerisque tellus vel nunc ultrices, sit amet mattis neque eleifend. Pellentesque est nisi, sodales nec dui et, elementum gravida sem. Duis scelerisque ex eget sapien gravida, at laoreet augue pharetra. Sed purus eros, commodo vel viverra sit amet, cursus et est. Nullam magna est, eleifend quis vehicula vitae, consectetur quis orci. Vestibulum feugiat dapibus ligula eget vestibulum. Phasellus accumsan dolor quis congue auctor. Suspendisse potenti. Suspendisse efficitur eros viverra ligula dignissim ullamcorper a quis augue. Cras accumsan sagittis neque at suscipit.
+
+## Local Images
+
+<div className='image-grid'>
+
+<GatsbyImage alt="green doggo" image={props.localImages.image1} />
+<GatsbyImage alt="orange doggo" image={props.localImages.image2} />
+
+</div>
+
+Photo Credit: [Karsten Winegeart](https://unsplash.com/@karsten116)
+
+## Props
+
+`props.remoteImages` returns a key for each image named in the frontmatter field `embeddedImagesLocal`
+
+<pre>
+  <code>{JSON.stringify(props.localImages, null, 2)}</code>
+</pre>

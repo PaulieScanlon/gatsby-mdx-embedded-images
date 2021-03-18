@@ -1,0 +1,28 @@
+html,
+body {
+  font-family: 'system-ui';
+}
+
+.image-grid {
+  display: grid;
+  grid-gap: 8px;
+  grid-template-columns: 1fr;
+}
+
+@media only screen and (min-width: 576px) {
+  .image-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+pre {
+  background-color: ghostwhite;
+  overflow: auto;
+  padding: 8px;
+  width: 100%;
+}
+
+pre code {
+  font-size: 10px;
+  white-space: pre;
+}

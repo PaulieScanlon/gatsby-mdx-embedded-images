@@ -1,0 +1,29 @@
+---
+title: Remote Images
+embeddedImagesRemote:
+  - https://res.cloudinary.com/www-paulie-dev/image/upload/v1616158207/Gatsby%20Demos/gatsby-mdx-embedded-images/image3_gw0ifz.jpg
+  - https://res.cloudinary.com/www-paulie-dev/image/upload/v1616158207/Gatsby%20Demos/gatsby-mdx-embedded-images/image4_lwx4w1.jpg
+---
+
+## Post Body
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eleifend iaculis nunc ut posuere. Integer mollis interdum nisi eu pellentesque. Quisque euismod ipsum mi, in rutrum nisl malesuada quis. In hac habitasse platea dictumst. Nullam tempor iaculis varius. Vestibulum sit amet feugiat sem, vitae venenatis urna. Proin scelerisque tellus vel nunc ultrices, sit amet mattis neque eleifend. Pellentesque est nisi, sodales nec dui et, elementum gravida sem. Duis scelerisque ex eget sapien gravida, at laoreet augue pharetra. Sed purus eros, commodo vel viverra sit amet, cursus et est. Nullam magna est, eleifend quis vehicula vitae, consectetur quis orci. Vestibulum feugiat dapibus ligula eget vestibulum. Phasellus accumsan dolor quis congue auctor. Suspendisse potenti. Suspendisse efficitur eros viverra ligula dignissim ullamcorper a quis augue. Cras accumsan sagittis neque at suscipit.
+
+## Remote Images
+
+<div className='image-grid'>
+
+<GatsbyImage alt="blue doggo" image={props.remoteImages.image1} />
+<GatsbyImage alt="yellow doggo" image={props.remoteImages.image2} />
+
+</div>
+
+Photo Credit: [Karsten Winegeart](https://unsplash.com/@karsten116)
+
+## Props
+
+`props.remoteImages` returns a key for each image named in the frontmatter field `embeddedImagesRemote`
+
+<pre>
+  <code>{JSON.stringify(props.remoteImages, null, 2)}</code>
+</pre>

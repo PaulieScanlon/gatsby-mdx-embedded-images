@@ -1,0 +1,35 @@
+{
+  "name": "gatsby-mdx-embdeded-images",
+  "version": "1.0.0",
+  "description": "A demo repo for gatsby-plugin-image | gatsby-plugin-mdx and embedded images",
+  "main": "index.js",
+  "scripts": {
+    "develop": "gatsby develop",
+    "build": "gatsby build",
+    "clean": "gatsby clean",
+    "serve": "gatsby serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PaulieScanlon/gatsby-mdx-embdeded-images.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PaulieScanlon/gatsby-mdx-embdeded-images/issues"
+  },
+  "homepage": "https://github.com/PaulieScanlon/gatsby-mdx-embdeded-images#readme",
+  "dependencies": {
+    "@mdx-js/mdx": "^1.6.22",
+    "@mdx-js/react": "^1.6.22",
+    "gatsby": "^3.1.0",
+    "gatsby-plugin-image": "^1.1.0",
+    "gatsby-plugin-mdx": "^2.1.0",
+    "gatsby-plugin-sharp": "^3.1.0",
+    "gatsby-source-filesystem": "^3.1.0",
+    "gatsby-transformer-sharp": "^3.1.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}
