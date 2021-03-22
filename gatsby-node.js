@@ -5,12 +5,12 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
 
   createTypes(`
     type Mdx implements Node {
-      frontmatter: Frontmatter  
+      frontmatter: Frontmatter
     }
 
     type Frontmatter @dontInfer {
       title: String!
-      embeddedImagesRemote: [File] @link(from: "embeddedImagesRemote___NODE")
+      embeddedImagesRemote: [File] @link(by: "url")
       embeddedImagesLocal: [File] @fileByRelativePath
     }
     `);
@@ -21,32 +21,26 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
 exports.onCreateNode = ({
   node,
   createNodeId,
-  actions: { createNode, createNodeField, createParentChildLink },
+  actions: { createNode },
   cache,
-  store
+  store,
 }) => {
-  if (node.internal.type === 'Mdx') {
-    if (node.frontmatter && node.frontmatter.embeddedImagesRemote) {
-      let collection = [];
-      node.frontmatter.embeddedImagesRemote.map(async (item) => {
-        let fileNode;
+  if (node.internal.type === 'Mdx' && node.frontmatter?.embeddedImagesRemote) {
+    return Promise.all(
+      node.frontmatter.embeddedImagesRemote.map((url) => {
         try {
-          fileNode = await createRemoteFileNode({
-            url: item,
+          return createRemoteFileNode({
+            url,
             parentNodeId: node.id,
             createNode,
             createNodeId,
             cache,
-            store
+            store,
           });
         } catch (error) {
           console.error(error);
         }
-        if (fileNode) {
-          collection.push(fileNode.id);
-          node.frontmatter.embeddedImagesRemote___NODE = [...collection];
-        }
-      });
-    }
+      })
+    );
   }
 };

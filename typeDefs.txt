@@ -1,4 +1,4 @@
-### Type definitions saved at 2021-03-19T13:02:17.873Z ###
+### Type definitions saved at 2021-03-22T10:43:06.207Z ###
 
 type File implements Node @dontInfer {
   sourceInstanceName: String!
@@ -34,6 +34,7 @@ type File implements Node @dontInfer {
   birthtimeMs: Float @deprecated(reason: "Use `birthTime` instead")
   blksize: Int
   blocks: Int
+  url: String
 }
 
 type Directory implements Node @dontInfer {
@@ -438,6 +439,6 @@ type Mdx implements Node @childOf(mimeTypes: ["text/markdown", "text/x-markdown"
 
 type Frontmatter {
   title: String!
-  embeddedImagesRemote: [File] @link(by: "id", from: "embeddedImagesRemote___NODE")
+  embeddedImagesRemote: [File] @link(by: "url")
   embeddedImagesLocal: [File] @fileByRelativePath
 }

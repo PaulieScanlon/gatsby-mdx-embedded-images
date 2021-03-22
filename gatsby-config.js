@@ -3,12 +3,21 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/src/things/posts`
-      }
+        path: `${__dirname}/src/things/posts`,
+      },
     },
     `gatsby-plugin-mdx`,
     `gatsby-plugin-image`,
-    `gatsby-plugin-sharp`,
-    `gatsby-transformer-sharp`
-  ]
+    {
+      resolve: `gatsby-plugin-sharp`,
+      options: {
+        defaults: {
+          quality: 70,
+          formats: ['auto', 'webp', 'avif'],
+          placeholder: 'blurred',
+        },
+      },
+    },
+    `gatsby-transformer-sharp`,
+  ],
 };
