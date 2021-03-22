@@ -23,9 +23,13 @@ exports.onCreateNode = ({
   createNodeId,
   actions: { createNode },
   cache,
-  store,
+  store
 }) => {
-  if (node.internal.type === 'Mdx' && node.frontmatter?.embeddedImagesRemote) {
+  if (
+    node.internal.type === 'Mdx' &&
+    node.frontmatter &&
+    node.frontmatter.embeddedImagesRemote
+  ) {
     return Promise.all(
       node.frontmatter.embeddedImagesRemote.map((url) => {
         try {
@@ -35,7 +39,7 @@ exports.onCreateNode = ({
             createNode,
             createNodeId,
             cache,
-            store,
+            store
           });
         } catch (error) {
           console.error(error);
