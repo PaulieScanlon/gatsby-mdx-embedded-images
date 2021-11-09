@@ -9,9 +9,7 @@ const IndexPage = () => {
       allSitePage(filter: { path: { regex: "//content//" } }) {
         edges {
           node {
-            context {
-              slug
-            }
+            pageContext
             path
           }
         }
@@ -26,7 +24,7 @@ const IndexPage = () => {
         <h2>Content links</h2>
         {edges.map((item, index) => {
           const {
-            context: { slug },
+            pageContext: { slug },
             path
           } = item.node;
 
