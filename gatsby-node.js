@@ -6,22 +6,23 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
   createTypes(`
     type Mdx implements Node {
       frontmatter: Frontmatter
+      embeddedImagesRemote: [File] @link(from: "fields.embeddedImagesRemote")
     }
-
+    
     type Frontmatter @dontInfer {
       title: String!
-      embeddedImagesRemote: [File] @link(by: "url")
       embeddedImagesLocal: [File] @fileByRelativePath
+      embeddedImagesRemote: [String]
     }
     `);
 
   printTypeDefinitions({ path: './typeDefs.txt' });
 };
 
-exports.onCreateNode = ({
+exports.onCreateNode = async ({
   node,
   createNodeId,
-  actions: { createNode },
+  actions: { createNodeField, createNode },
   cache,
   store
 }) => {
@@ -30,7 +31,7 @@ exports.onCreateNode = ({
     node.frontmatter &&
     node.frontmatter.embeddedImagesRemote
   ) {
-    return Promise.all(
+    let embeddedImagesRemote = await Promise.all(
       node.frontmatter.embeddedImagesRemote.map((url) => {
         try {
           return createRemoteFileNode({
@@ -46,5 +47,14 @@ exports.onCreateNode = ({
         }
       })
     );
+    if (embeddedImagesRemote) {
+      createNodeField({
+        node,
+        name: 'embeddedImagesRemote',
+        value: embeddedImagesRemote.map((image) => {
+          return image.id;
+        })
+      });
+    }
   }
 };

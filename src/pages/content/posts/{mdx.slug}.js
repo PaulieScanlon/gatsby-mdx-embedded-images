@@ -8,10 +8,11 @@ import './styles.css';
 const MdxPage = ({
   data: {
     mdx: {
-      frontmatter: { title, embeddedImagesRemote, embeddedImagesLocal },
-      body,
-    },
-  },
+      embeddedImagesRemote,
+      frontmatter: { title, embeddedImagesLocal },
+      body
+    }
+  }
 }) => {
   return (
     <Fragment>
@@ -32,13 +33,13 @@ const MdxPage = ({
 export const query = graphql`
   query($id: String) {
     mdx(id: { eq: $id }) {
+      embeddedImagesRemote {
+        childImageSharp {
+          gatsbyImageData(layout: FULL_WIDTH)
+        }
+      }
       frontmatter {
         title
-        embeddedImagesRemote {
-          childImageSharp {
-            gatsbyImageData(layout: FULL_WIDTH)
-          }
-        }
         embeddedImagesLocal {
           childImageSharp {
             gatsbyImageData(layout: FULL_WIDTH)

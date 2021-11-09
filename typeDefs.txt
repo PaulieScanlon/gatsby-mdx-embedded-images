@@ -1,4 +1,4 @@
-### Type definitions saved at 2021-03-22T10:43:06.207Z ###
+### Type definitions saved at 2021-11-09T21:02:47.566Z ###
 
 type File implements Node @dontInfer {
   sourceInstanceName: String!
@@ -69,8 +69,6 @@ type Directory implements Node @dontInfer {
   ctime: Date! @dateformat
   birthtime: Date @deprecated(reason: "Use `birthTime` instead")
   birthtimeMs: Float @deprecated(reason: "Use `birthTime` instead")
-  blksize: Int
-  blocks: Int
 }
 
 type Site implements Node @dontInfer {
@@ -80,11 +78,22 @@ type Site implements Node @dontInfer {
   host: String
   polyfill: Boolean
   pathPrefix: String
+  jsxRuntime: String
 }
 
 type SiteSiteMetadata {
   title: String
   description: String
+}
+
+type SiteFunction implements Node @dontInfer {
+  functionRoute: String!
+  pluginName: String!
+  originalAbsoluteFilePath: String!
+  originalRelativeFilePath: String!
+  relativeCompiledFilePath: String!
+  absoluteCompiledFilePath: String!
+  matchPath: String
 }
 
 type SitePage implements Node @dontInfer {
@@ -93,6 +102,97 @@ type SitePage implements Node @dontInfer {
   internalComponentName: String!
   componentChunkName: String!
   matchPath: String
+  pageContext: JSON @proxy(from: "context", fromNode: false)
+  pluginCreator: SitePlugin @link(by: "id", from: "pluginCreatorId")
+}
+
+type SitePlugin implements Node @dontInfer {
+  resolve: String
+  name: String
+  version: String
+  nodeAPIs: [String]
+  browserAPIs: [String]
+  ssrAPIs: [String]
+  pluginFilepath: String
+  pluginOptions: JSON
+  packageJson: JSON
+}
+
+type SiteBuildMetadata implements Node @dontInfer {
+  buildTime: Date @dateformat
+}
+
+type MdxFrontmatter {
+  title: String!
+}
+
+type MdxHeadingMdx {
+  value: String
+  depth: Int
+}
+
+enum HeadingsMdx {
+  h1
+  h2
+  h3
+  h4
+  h5
+  h6
+}
+
+type MdxWordCount {
+  paragraphs: Int
+  sentences: Int
+  words: Int
+}
+
+type Mdx implements Node @childOf(mimeTypes: ["text/markdown", "text/x-markdown"], types: ["File"]) @derivedTypes @dontInfer {
+  rawBody: String!
+  fileAbsolutePath: String!
+  frontmatter: Frontmatter
+  slug: String
+  body: String!
+  excerpt(pruneLength: Int = 140, truncate: Boolean = false): String!
+  headings(depth: HeadingsMdx): [MdxHeadingMdx]
+  html: String
+  mdxAST: JSON
+  tableOfContents(maxDepth: Int): JSON
+  timeToRead: Int
+  wordCount: MdxWordCount
+  embeddedImagesRemote: [File] @link(by: "id", from: "fields.embeddedImagesRemote")
+  fields: MdxFields
+}
+
+type Frontmatter {
+  title: String!
+  embeddedImagesLocal: [File] @fileByRelativePath
+  embeddedImagesRemote: [String]
+}
+
+type MdxFields {
+  embeddedImagesRemote: [String]
+}
+
+enum GatsbyImageFormat {
+  NO_CHANGE
+  AUTO
+  JPG
+  PNG
+  WEBP
+  AVIF
+}
+
+enum GatsbyImageLayout {
+  FIXED
+  FULL_WIDTH
+  CONSTRAINED
+}
+
+enum GatsbyImagePlaceholder {
+  DOMINANT_COLOR
+  TRACED_SVG
+  BLURRED
+  NONE
 }
 
 enum ImageFormat {
@@ -396,49 +496,4 @@ type ImageSharp implements Node @childOf(types: ["File"]) @dontInfer {
   ): JSON!
   original: ImageSharpOriginal
   resize(width: Int, height: Int, quality: Int, jpegQuality: Int, pngQuality: Int, webpQuality: Int, jpegProgressive: Boolean = true, pngCompressionLevel: Int = 9, pngCompressionSpeed: Int = 4, grayscale: Boolean = false, duotone: DuotoneGradient, base64: Boolean = false, traceSVG: Potrace, toFormat: ImageFormat = AUTO, cropFocus: ImageCropFocus = ATTENTION, fit: ImageFit = COVER, background: String = "rgba(0,0,0,1)", rotate: Int = 0, trim: Float = 0): ImageSharpResize
-}
-
-type MdxFrontmatter {
-  title: String!
-}
-
-type MdxHeadingMdx {
-  value: String
-  depth: Int
-}
-
-enum HeadingsMdx {
-  h1
-  h2
-  h3
-  h4
-  h5
-  h6
-}
-
-type MdxWordCount {
-  paragraphs: Int
-  sentences: Int
-  words: Int
-}
-
-type Mdx implements Node @childOf(mimeTypes: ["text/markdown", "text/x-markdown"], types: ["File"]) @dontInfer {
-  rawBody: String!
-  fileAbsolutePath: String!
-  frontmatter: Frontmatter
-  slug: String
-  body: String!
-  excerpt(pruneLength: Int = 140, truncate: Boolean = false): String!
-  headings(depth: HeadingsMdx): [MdxHeadingMdx]
-  html: String
-  mdxAST: JSON
-  tableOfContents(maxDepth: Int): JSON
-  timeToRead: Int
-  wordCount: MdxWordCount
-}
-
-type Frontmatter {
-  title: String!
-  embeddedImagesRemote: [File] @link(by: "url")
-  embeddedImagesLocal: [File] @fileByRelativePath
 }
